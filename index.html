@@ -129,14 +129,18 @@
     this.reset();
   });
 
-  function deleteBooking() {
-    const timeToRemove = deleteSelect.value;
-    if (!timeToRemove) return alert("Выберите время для удаления.");
-    const index = bookedTimes.indexOf(timeToRemove);
-    if (index > -1) {
-      bookedTimes.splice(index, 1);
-      renderTimes();
-      alert(`🗑 Заказ на ${timeToRemove} удалён.`);
+ function deleteBooking() {
+  const timeToDelete = deleteSelect.value;
+  const adminPass = prompt("Введите пароль администратора:");
+  if (adminPass !== "8771") return alert("❌ Неверный пароль. Удаление невозможно.");
+
+  const index = bookedTimes.indexOf(timeToDelete);
+  if (index > -1) {
+    bookedTimes.splice(index, 1);
+    renderTimes();
+    alert(`🗑 Заказ на ${timeToDelete} удалён.`);
+  }
+}
     }
   }
 </script>
