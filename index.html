@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Активация Windows и Office</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; font-family: 'Inter', sans-serif; background: #f0f2f5; color: #2c3e50; }
+    header { background: #34495e; padding: 20px; color: white; text-align: center; }
+    h1 { margin: 0; font-size: 24px; }
+    section { max-width: 900px; margin: 20px auto; background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    h2 { font-size: 20px; margin-top: 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px; border-bottom: 1px solid #ddd; }
+    label { display: block; margin-top: 15px; }
+    input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+    button { background: #3498db; color: white; border: none; cursor: pointer; }
+    button:hover { background: #2980b9; }
+    .reviews p { background: #ecf0f1; padding: 10px; border-radius: 5px; }
+    .footer { text-align: center; font-size: 14px; margin: 40px 0; color: #777; }
+    .unavailable { color: red; }
+    @media (max-width: 600px) {
+      section { margin: 10px; padding: 15px; }
+      h1 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🔐 Активация Windows и Office — Надёжно, доступно, быстро!</h1>
+</header>
+
+<section>
+  <h2>💻 Цены</h2>
+  <table>
+    <tr><th>Продукт</th><th>Цена</th></tr>
+    <tr><td>Windows 10 Home</td><td>2250 тенге</td></tr>
+    <tr><td>Windows 10 Pro</td><td>3250 тенге</td></tr>
+    <tr><td>Windows 11 Home</td><td>4125 тенге</td></tr>
+    <tr><td>Windows 11 Pro</td><td>5125 тенге</td></tr>
+    <tr><td>Microsoft Office</td><td>3500 тенге</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>📋 Заказ услуги</h2>
+  <form id="orderForm">
+    <label>📱 Ваш номер телефона:
+      <input type="tel" name="phone" required placeholder="+7...">
+    </label>
+
+    <label>🧾 Выберите услугу:
+      <select multiple name="services" required>
+        <option value="Windows 10 Home">Windows 10 Home</option>
+        <option value="Windows 10 Pro">Windows 10 Pro</option>
+        <option value="Windows 11 Home">Windows 11 Home</option>
+        <option value="Windows 11 Pro">Windows 11 Pro</option>
+        <option value="Microsoft Office">Microsoft Office</option>
+      </select>
+    </label>
+
+    <label>⏰ Время:
+      <select name="time" id="timeSelect" required></select>
+    </label>
+
+    <button type="submit">✅ Заказать</button>
+  </form>
+
+  <hr>
+
+  <h3>🗑 Удалить заказ по времени</h3>
+  <label>Выберите время:
+    <select id="deleteTime"></select>
+  </label>
+  <button onclick="deleteBooking()">Удалить</button>
+</section>
+
+<section class="reviews">
+  <h2>🌟 Отзывы клиентов</h2>
+  <p><strong>Айбек:</strong> Быстрая доставка ключа и моментальная активация. Рекомендую!</p>
+  <p><strong>Диана:</strong> Всё чётко, честная цена и поддержка — спасибо!</p>
+  <p><strong>Ернар:</strong> Самые выгодные ключи по Казахстану. 👍</p>
+</section>
+
+<div class="footer">
+  📞 Тел: +87712997720 | ✉️ Email: sultandanial432@gmail.com | 📱 Instagram: <a href="https://instagram.com/ruttvyt">@ruttvyt</a><br>
+  💬 Мы — ваш надёжный партнёр по активациям. Доступно, с гарантией!
+</div>
+
+<script>
+  const bookedTimes = ["12:30", "15:00"];
+  const allTimes = ["11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00"];
+  const timeSelect = document.getElementById("timeSelect");
+  const deleteSelect = document.getElementById("deleteTime");
+
+  function renderTimes() {
+    timeSelect.innerHTML = "";
+    deleteSelect.innerHTML = "";
+    allTimes.forEach(time => {
+      let opt = document.createElement("option");
+      opt.value = time;
+      opt.textContent = bookedTimes.includes(time) ? `${time} (занято)` : time;
+      if (bookedTimes.includes(time)) opt.disabled = true;
+      timeSelect.appendChild(opt);
+
+      if (bookedTimes.includes(time)) {
+        let delOpt = document.createElement("option");
+        delOpt.value = time;
+        delOpt.textContent = time;
+        deleteSelect.appendChild(delOpt);
+      }
+    });
+  }
+
+  renderTimes();
+
+  document.getElementById("orderForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const phone = this.phone.value.trim();
+    const services = Array.from(this.services.selectedOptions).map(opt => opt.value);
+    const time = this.time.value;
+    if (!phone || services.length === 0 || !time) return alert("Пожалуйста, заполните все поля.");
+
+    alert(`✅ Заказ принят:\nНомер: ${phone}\nУслуга: ${services.join(', ')}\nВремя: ${time}`);
+    bookedTimes.push(time);
+    renderTimes();
+    this.reset();
+  });
+
+  function deleteBooking() {
+    const timeToRemove = deleteSelect.value;
+    if (!timeToRemove) return alert("Выберите время для удаления.");
+    const index = bookedTimes.indexOf(timeToRemove);
+    if (index > -1) {
+      bookedTimes.splice(index, 1);
+      renderTimes();
+      alert(`🗑 Заказ на ${timeToRemove} удалён.`);
+    }
+  }
+</script>
+
+</body>
+</html>
